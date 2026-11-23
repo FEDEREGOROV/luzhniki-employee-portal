@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#06233b">
+  <meta name="description" content="Внутренний портал сотрудников Олимпийского комплекса «Лужники»">
+  <title>Лужники — портал сотрудников</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">К содержимому</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#home" aria-label="Лужники — портал сотрудников">
+        <img src="assets/luzhniki-logo.png" alt="Лужники — внутренний портал">
+      </a>
+
+      <nav class="main-nav" aria-label="Основная навигация">
+        <button class="main-nav__item is-active" data-page="home">Главная</button>
+        <button class="main-nav__item" data-page="structure">Структура</button>
+        <button class="main-nav__item" data-page="newcomers">Новые сотрудники</button>
+        <button class="main-nav__item" data-page="birthdays">Дни рождения</button>
+        <button class="main-nav__item" data-page="about">О компании</button>
+      </nav>
+
+      <div class="top-actions">
+        <button class="icon-button" id="searchToggle" aria-label="Открыть поиск" title="Поиск">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+        </button>
+        <button class="icon-button has-badge" id="notifyButton" aria-label="Уведомления: 3 новых" title="Уведомления">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 8h18c0-1-3-1-3-8Z"></path><path d="M10 21h4"></path></svg>
+          <span class="badge">3</span>
+        </button>
+        <button class="profile-chip" data-page="profile" aria-label="Открыть личный кабинет">
+          <span class="avatar avatar--lime">АК</span>
+          <span class="profile-chip__copy"><strong>Алексей Крылов</strong><small>Отдел эксплуатации</small></span>
+        </button>
+        <button class="mobile-menu" id="mobileMenu" aria-label="Открыть меню" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-nav" id="mobileNav" hidden>
+    <button data-page="home">Главная</button>
+    <button data-page="structure">Структура</button>
+    <button data-page="newcomers">Новые сотрудники</button>
+    <button data-page="birthdays">Дни рождения</button>
+    <button data-page="about">О компании</button>
+    <button data-page="profile">Личный кабинет</button>
+  </div>
+
+  <main id="main-content" tabindex="-1">
+    <section class="page is-active" data-page-view="home" aria-labelledby="home-title">
+      <div class="shell home-grid">
+        <div class="news-column">
+          <div class="section-heading">
+            <div><p class="eyebrow">Корпоративная лента</p><h1 id="home-title" class="home-title">Новости</h1></div>
+            <button class="text-button" id="allNews">Все новости</button>
+          </div>
+
+          <article class="featured-news">
+            <div class="featured-news__image">
+              <img src="assets/finzachet.png" alt="Всероссийский онлайн-зачёт по финансовой грамотности — с 6 по 27 октября 2026 года">
+              <span class="category">Важно</span>
+            </div>
+            <div class="featured-news__content">
+              <div class="meta"><span>6 октября 2026</span><span>5 минут</span></div>
+              <h3>IX Всероссийский онлайн-зачёт по финансовой грамотности</h3>
+              <p><strong>Уважаемые коллеги!</strong></p>
+              <p>В период с 6 по 27 октября 2026 года в рамках реализации Стратегии повышения финансовой грамотности и формирования финансовой культуры до 2030 года состоится IX Всероссийский онлайн-зачёт по финансовой грамотности — ежегодный просветительский проект Банка России.</p>
+              <div class="news-more" id="newsMore" hidden>
+                <p>Зачёт можно будет пройти как индивидуально, так и всей семьёй. Задания для взрослого населения разработаны на основе жизненных ситуаций, что позволяет оценить свои знания по конкретным темам и повышает практическую значимость полученной информации.</p>
+                <p>Знания и навыки, полученные по итогам прохождения зачёта, помогают принимать взвешенные финансовые решения, способствуют финансовому благополучию и минимизации финансовых рисков.</p>
+                <p>Для младших школьников задания разработаны в увлекательном интерактивном формате. Школьники 7–11 классов с 13 по 15 октября могут принять участие в олимпиадном зачёте. Личный зачёт займёт до 20 минут, олимпиадный — до 40 минут, семейный — до 1 часа.</p>
+                <p>Организатор зачёта — Банк России. Подробная информация и регистрация доступны на <a href="https://finzachet.ru/" target="_blank" rel="noreferrer">сайте проекта</a>.</p>
+              </div>
+              <button class="button button--dark" id="newsExpand" aria-expanded="false">Читать полностью</button>
+            </div>
+          </article>
+
+        </div>
+
+        <aside class="side-column" aria-label="События команды">
+          <section class="widget widget--birthday">
+            <div class="widget__head"><div><p class="eyebrow">Эта неделя</p><h2>Дни рождения</h2></div><span class="count">4</span></div>
+            <div class="person-row">
+              <span class="avatar avatar--photo avatar--one">А</span>
+              <div><strong>Андрей Колесников</strong><small>26 ноября · Дирекция спорта</small></div>
+            </div>
+            <div class="person-row">
+              <span class="avatar avatar--photo avatar--two">О</span>
+              <div><strong>Оксана Петрова</strong><small>28 ноября · Пресс-служба</small></div>
+            </div>
+            <button class="widget__link" data-page="birthdays">Смотреть календарь</button>
+          </section>
+
+          <section class="widget">
+            <div class="widget__head"><div><p class="eyebrow">Наша команда</p><h2>Новые сотрудники</h2></div><span class="count count--dark">5</span></div>
+            <div class="person-row person-row--compact">
+              <span class="avatar avatar--orange">МС</span>
+              <div><strong>Мария Соколова</strong><small>Менеджер по мероприятиям</small></div>
+            </div>
+            <div class="person-row person-row--compact">
+              <span class="avatar avatar--blue">РИ</span>
+              <div><strong>Роман Ильин</strong><small>Инженер эксплуатации</small></div>
+            </div>
+            <div class="person-row person-row--compact">
+              <span class="avatar avatar--pink">ЕН</span>
+              <div><strong>Елена Новикова</strong><small>Специалист отдела кадров</small></div>
+            </div>
+            <button class="widget__link" data-page="newcomers">Познакомиться со всеми</button>
+          </section>
+
+        </aside>
+      </div>
+    </section>
+
+    <section class="page" data-page-view="structure" aria-labelledby="structure-title">
+      <div class="shell page-head page-head--mint">
+        <div><p class="eyebrow">Команда Лужников</p><h1 id="structure-title">Структура компании</h1><p class="lead">Найдите подразделение или коллегу и посмотрите, как устроена команда.</p></div>
+        <div class="arc-decoration" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+      <div class="shell">
+        <div class="toolbar">
+          <label class="search-field"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><input id="orgSearch" type="search" placeholder="Имя, должность или подразделение"></label>
+          <span class="toolbar__meta">126 сотрудников · 12 подразделений</span>
+        </div>
+
+        <div class="org-chart" id="orgChart">
+          <div class="org-level org-level--root">
+            <button class="org-person org-person--root employee-open" data-employee="Виктор Сергеевич Макаров|Генеральный директор|Приёмная генерального директора|ВС">
+              <span class="avatar avatar--white">ВС</span><span><small>Генеральный директор</small><strong>Виктор Сергеевич Макаров</strong></span>
+            </button>
+          </div>
+          <div class="org-branches">
+            <section class="org-unit">
+              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--lime">Э</span><span><strong>Эксплуатация</strong><small>42 сотрудника</small></span><span class="chevron"></span></button>
+              <div class="org-unit__body">
+                <button class="org-person employee-open" data-employee="Олег Николаевич Волков|Директор по эксплуатации|Дирекция эксплуатации|ОН"><span class="avatar avatar--lime">ОН</span><span><strong>Олег Волков</strong><small>Директор</small></span></button>
+                <button class="org-team"><span>Инженерная служба</span><b>18</b></button>
+                <button class="org-team"><span>Служба клининга</span><b>14</b></button>
+                <button class="org-team"><span>Транспортный отдел</span><b>9</b></button>
+              </div>
+            </section>
+            <section class="org-unit">
+              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--blue">С</span><span><strong>Спорт и события</strong><small>34 сотрудника</small></span><span class="chevron"></span></button>
+              <div class="org-unit__body">
+                <button class="org-person employee-open" data-employee="Анна Игоревна Белова|Директор по спортивным программам|Дирекция спорта|АИ"><span class="avatar avatar--blue">АИ</span><span><strong>Анна Белова</strong><small>Директор</small></span></button>
+                <button class="org-team"><span>Спортивные программы</span><b>12</b></button>
+                <button class="org-team"><span>Массовые мероприятия</span><b>13</b></button>
+                <button class="org-team"><span>Арендные проекты</span><b>8</b></button>
+              </div>
+            </section>
+            <section class="org-unit">
+              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--orange">К</span><span><strong>Коммуникации</strong><small>21 сотрудник</small></span><span class="chevron"></span></button>
+              <div class="org-unit__body">
+                <button class="org-person employee-open" data-employee="Михаил Юрьевич Орлов|Директор по коммуникациям|Дирекция коммуникаций|МЮ"><span class="avatar avatar--orange">МЮ</span><span><strong>Михаил Орлов</strong><small>Директор</small></span></button>
+                <button class="org-team"><span>Пресс-служба</span><b>7</b></button>
+                <button class="org-team"><span>Маркетинг</span><b>8</b></button>
+                <button class="org-team"><span>Дизайн-студия</span><b>5</b></button>
+              </div>
+            </section>
+            <section class="org-unit">
+              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--pink">Р</span><span><strong>Корпоративные сервисы</strong><small>29 сотрудников</small></span><span class="chevron"></span></button>
+              <div class="org-unit__body">
+                <button class="org-person employee-open" data-employee="Наталья Павловна Ершова|HR-директор|Дирекция по персоналу|НП"><span class="avatar avatar--pink">НП</span><span><strong>Наталья Ершова</strong><small>HR-директор</small></span></button>
+                <button class="org-team"><span>Управление персоналом</span><b>9</b></button>
+                <button class="org-team"><span>Финансы</span><b>11</b></button>
+                <button class="org-team"><span>Правовое управление</span><b>8</b></button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page-view="newcomers" aria-labelledby="newcomers-title">
+      <div class="shell page-head">
+        <div><p class="eyebrow">Добро пожаловать</p><h1 id="newcomers-title">Новые сотрудники</h1><p class="lead">Коллеги, которые недавно присоединились к команде «Лужников».</p></div>
+        <div class="big-stat"><strong>14</strong><span>новых коллег<br>в ноябре</span></div>
+      </div>
+      <div class="shell">
+        <div class="toolbar">
+          <label class="search-field"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><input id="peopleSearch" type="search" placeholder="Найти сотрудника"></label>
+          <label class="select-field"><span>Подразделение</span><select id="departmentFilter"><option value="all">Все</option><option value="events">Спорт и события</option><option value="operations">Эксплуатация</option><option value="services">Корпоративные сервисы</option><option value="communications">Коммуникации</option></select></label>
+        </div>
+        <div class="people-grid" id="newcomersGrid">
+          <article class="person-card" data-department="events"><div class="person-card__visual visual--coral"><span>МС</span><i></i></div><div class="person-card__copy"><p class="meta">С нами с 16 ноября</p><h2>Мария Соколова</h2><p>Менеджер по мероприятиям</p><span class="tag">Спорт и события</span><button class="mini-action employee-open" data-employee="Мария Андреевна Соколова|Менеджер по мероприятиям|Спорт и события|МС">Открыть профиль</button></div></article>
+          <article class="person-card" data-department="operations"><div class="person-card__visual visual--blue"><span>РИ</span><i></i></div><div class="person-card__copy"><p class="meta">С нами с 12 ноября</p><h2>Роман Ильин</h2><p>Инженер эксплуатации</p><span class="tag">Эксплуатация</span><button class="mini-action employee-open" data-employee="Роман Денисович Ильин|Инженер эксплуатации|Эксплуатация|РИ">Открыть профиль</button></div></article>
+          <article class="person-card" data-department="services"><div class="person-card__visual visual--pink"><span>ЕН</span><i></i></div><div class="person-card__copy"><p class="meta">С нами с 9 ноября</p><h2>Елена Новикова</h2><p>Специалист отдела кадров</p><span class="tag">Корпоративные сервисы</span><button class="mini-action employee-open" data-employee="Елена Вадимовна Новикова|Специалист отдела кадров|Корпоративные сервисы|ЕН">Открыть профиль</button></div></article>
+          <article class="person-card" data-department="communications"><div class="person-card__visual visual--lime"><span>ДК</span><i></i></div><div class="person-card__copy"><p class="meta">С нами с 2 ноября</p><h2>Денис Ковалёв</h2><p>Графический дизайнер</p><span class="tag">Коммуникации</span><button class="mini-action employee-open" data-employee="Денис Олегович Ковалёв|Графический дизайнер|Коммуникации|ДК">Открыть профиль</button></div></article>
+          <article class="person-card" data-department="events"><div class="person-card__visual visual--violet"><span>ВТ</span><i></i></div><div class="person-card__copy"><p class="meta">С нами с 28 октября</p><h2>Вера Титова</h2><p>Координатор спортивных программ</p><span class="tag">Спорт и события</span><button class="mini-action employee-open" data-employee="Вера Олеговна Титова|Координатор спортивных программ|Спорт и события|ВТ">Открыть профиль</button></div></article>
+          <article class="person-card" data-department="operations"><div class="person-card__visual visual--yellow"><span>ПЗ</span><i></i></div><div class="person-card__copy"><p class="meta">С нами с 26 октября</p><h2>Павел Зорин</h2><p>Специалист транспортного отдела</p><span class="tag">Эксплуатация</span><button class="mini-action employee-open" data-employee="Павел Игоревич Зорин|Специалист транспортного отдела|Эксплуатация|ПЗ">Открыть профиль</button></div></article>
+        </div>
+        <p class="empty-state" id="peopleEmpty" hidden>Ничего не найдено. Попробуйте изменить запрос.</p>
+      </div>
+    </section>
+
+    <section class="page" data-page-view="birthdays" aria-labelledby="birthdays-title">
+      <div class="shell page-head page-head--blue">
+        <div><p class="eyebrow">Календарь команды</p><h1 id="birthdays-title">Дни рождения</h1><p class="lead">Повод порадовать коллег и сказать тёплые слова.</p></div>
+        <div class="balloon" aria-hidden="true"><i></i></div>
+      </div>
+      <div class="shell">
+        <div class="month-toolbar">
+          <div>
+            <p class="eyebrow">Календарь на месяц</p>
+            <h2 id="calendarMonth">Ноябрь 2026</h2>
+          </div>
+          <div class="month-toolbar__actions">
+            <button class="calendar-nav" id="calendarPrev" aria-label="Предыдущий месяц">‹</button>
+            <button class="calendar-today" id="calendarToday">Текущий месяц</button>
+            <button class="calendar-nav" id="calendarNext" aria-label="Следующий месяц">›</button>
+          </div>
+        </div>
+        <div class="month-layout">
+          <div class="calendar-wrap">
+            <div class="month-weekdays" aria-hidden="true"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
+            <div class="month-grid" id="monthGrid" role="grid" aria-labelledby="calendarMonth"></div>
+          </div>
+          <aside class="month-birthdays">
+            <p class="eyebrow">Именинники</p>
+            <h2 id="monthBirthdayTitle">В ноябре</h2>
+            <div id="monthBirthdayList"></div>
+            <p class="month-birthdays__empty" id="monthBirthdayEmpty" hidden>В этом месяце дней рождения нет.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page-view="about" aria-labelledby="about-title">
+      <div class="about-hero">
+        <div class="about-hero__pattern" aria-hidden="true"></div>
+        <div class="shell about-hero__inner">
+          <div><p class="eyebrow">Олимпийский комплекс</p><h1 id="about-title">Лужники —<br>место большой энергии</h1><p class="lead">Мы создаём пространство для спорта, отдыха и ярких событий в самом сердце Москвы.</p></div>
+          <div class="about-badge"><span>70</span><small>лет истории</small></div>
+        </div>
+      </div>
+      <div class="shell about-content">
+        <div class="stats-row">
+          <div><strong>80+</strong><span>объектов<br>на территории</span></div><div><strong>180 га</strong><span>площадь<br>комплекса</span></div><div><strong>126</strong><span>сотрудников<br>в команде</span></div><div><strong>24/7</strong><span>живёт территория<br>Лужников</span></div>
+        </div>
+        <div class="about-grid">
+          <div><p class="eyebrow">Наша миссия</p><h2>Объединяем людей вокруг движения</h2></div>
+          <div><p>«Лужники» — больше, чем стадион. Это многофункциональная территория, где спортивная инфраструктура соседствует с парком, культурой и общественными пространствами.</p><p>Каждый сотрудник помогает сделать это место открытым, безопасным и вдохновляющим — для москвичей, гостей города, спортсменов и больших команд.</p></div>
+        </div>
+        <div class="values-grid">
+          <article><span class="value-icon">01</span><h3>Команда</h3><p>Слышим друг друга, делимся опытом и работаем на общий результат.</p></article>
+          <article><span class="value-icon">02</span><h3>Развитие</h3><p>Создаём новое, учимся и не боимся сложных спортивных задач.</p></article>
+          <article><span class="value-icon">03</span><h3>Гостеприимство</h3><p>Заботимся о каждом, кто приходит в «Лужники».</p></article>
+        </div>
+        <div class="contact-card"><div><p class="eyebrow">Контакты</p><h2>Есть вопрос?</h2><p>Служба поддержки внутреннего портала поможет с доступом и сервисами.</p></div><div><a href="mailto:portal@luzhniki.ru">portal@luzhniki.ru</a><a href="tel:+74957800808">+7 (495) 780-08-08</a><span>доб. 1100 · будни 09:00–18:00</span></div></div>
+      </div>
+    </section>
+
+    <section class="page" data-page-view="profile" aria-labelledby="profile-title">
+      <div class="shell page-head">
+        <div><p class="eyebrow">Личный кабинет</p><h1 id="profile-title">Мой профиль</h1><p class="lead">Документы, заявки и персональная информация.</p></div>
+        <button class="button button--dark" id="editProfile">Редактировать профиль</button>
+      </div>
+      <div class="shell profile-layout">
+        <section class="profile-card">
+          <div class="profile-card__top"><span class="avatar avatar--xl avatar--lime">АК</span><div><p class="meta">Сотрудник с 2021 года</p><h2 id="profileName">Алексей Крылов</h2><p>Ведущий специалист · Отдел эксплуатации</p></div></div>
+          <dl class="profile-details"><div><dt>Рабочая почта</dt><dd id="profileEmail">a.krylov@luzhniki.ru</dd></div><div><dt>Телефон</dt><dd id="profilePhone">+7 916 555-14-20</dd></div><div><dt>Внутренний номер</dt><dd>1432</dd></div><div><dt>Руководитель</dt><dd>Олег Волков</dd></div></dl>
+        </section>
+        <div class="profile-widgets">
+          <section class="balance-card"><p class="eyebrow">Отпуск</p><div><strong>18</strong><span>дней доступно</span></div><div class="progress"><i style="width:64%"></i></div><small>Запланировано: 7 дней в декабре</small></section>
+          <section class="request-card"><p class="eyebrow">Быстрые действия</p><button data-toast="Заявка на справку создана">Заказать справку <span>1 день</span></button><button data-toast="Заявка на пропуск создана">Заказать пропуск <span>до 2 часов</span></button><button data-toast="Заявка в ИТ зарегистрирована">Обратиться в ИТ <span>поддержка</span></button></section>
+        </div>
+        <section class="documents-card"><div class="section-heading"><div><p class="eyebrow">Последние документы</p><h2>Мои заявки</h2></div><button class="text-button" data-toast="Все документы загружены">Показать все</button></div><div class="document-row"><span class="doc-icon">PDF</span><div><strong>Расчётный лист · октябрь 2026</strong><small>Добавлен 10 ноября</small></div><span class="status status--ready">Готово</span><button class="icon-button" data-toast="Документ подготовлен к скачиванию" aria-label="Скачать документ">↓</button></div><div class="document-row"><span class="doc-icon doc-icon--blue">ЗП</span><div><strong>Справка с места работы</strong><small>Заявка от 18 ноября</small></div><span class="status status--process">В работе</span><button class="icon-button" aria-label="Подробнее">•••</button></div></section>
+      </div>
+    </section>
+  </main>
+
+  <div class="search-overlay" id="searchOverlay" hidden>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
+      <div class="search-panel__head"><h2 id="searchTitle">Поиск по порталу</h2><button class="icon-button" id="searchClose" aria-label="Закрыть поиск">×</button></div>
+      <label class="search-field search-field--large"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><input id="globalSearch" type="search" placeholder="Сотрудник, новость или сервис"></label>
+      <div class="search-suggestions"><p class="eyebrow">Популярное</p><button data-search-page="structure">Структура компании</button><button data-search-page="profile">Заказать справку</button><button data-search-page="birthdays">Дни рождения на неделе</button></div>
+      <div id="searchResults" class="search-results" hidden></div>
+    </div>
+  </div>
+
+  <div class="modal" id="employeeModal" hidden>
+    <div class="modal__backdrop" data-close-modal></div>
+    <section class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="employeeName">
+      <button class="modal__close" data-close-modal aria-label="Закрыть">×</button>
+      <span class="avatar avatar--xl avatar--lime" id="employeeInitials">АК</span>
+      <p class="eyebrow" id="employeeDepartment">Подразделение</p><h2 id="employeeName">Имя сотрудника</h2><p id="employeeRole">Должность</p>
+      <div class="modal__contacts"><a id="employeeMail" href="mailto:">Написать письмо</a><button data-toast="Контакт добавлен в избранное">Добавить в контакты</button></div>
+    </section>
+  </div>
+
+  <div class="modal" id="profileModal" hidden>
+    <div class="modal__backdrop" data-close-profile></div>
+    <form class="modal__panel" id="profileForm" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+      <button class="modal__close" type="button" data-close-profile aria-label="Закрыть">×</button>
+      <p class="eyebrow">Личный кабинет</p><h2 id="profileModalTitle">Редактировать профиль</h2>
+      <label>Имя и фамилия<input name="name" value="Алексей Крылов" required></label>
+      <label>Рабочая почта<input name="email" type="email" value="a.krylov@luzhniki.ru" required></label>
+      <label>Телефон<input name="phone" value="+7 916 555-14-20" required></label>
+      <button class="button button--dark" type="submit">Сохранить</button>
+    </form>
+  </div>
+
+  <div class="notification-popover" id="notificationPopover" hidden>
+    <p class="eyebrow">Уведомления</p><h2>Новые события</h2>
+    <button data-page="profile"><strong>Справка готова</strong><small>Можно скачать в личном кабинете</small></button>
+    <button data-page="birthdays"><strong>День рождения коллеги</strong><small>Андрей празднует 26 ноября</small></button>
+    <button data-page="home"><strong>Новая публикация</strong><small>Обновлено расписание транспорта</small></button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
