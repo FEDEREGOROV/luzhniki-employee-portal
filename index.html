@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#e53d4f">
   <meta name="description" content="Внутренний портал сотрудников Олимпийского комплекса «Лужники»">
   <title>Лужники — портал сотрудников</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261124-2">
 </head>
 <body>
   <a class="skip-link" href="#main-content">К содержимому</a>
@@ -66,7 +66,6 @@
           <article class="featured-news">
             <div class="featured-news__image">
               <img src="assets/finzachet.png" alt="Всероссийский онлайн-зачёт по финансовой грамотности — с 6 по 27 октября 2026 года">
-              <span class="category">Важно</span>
             </div>
             <div class="featured-news__content">
               <div class="meta"><span>6 октября 2026</span><span>5 минут</span></div>
@@ -128,52 +127,86 @@
       <div class="shell">
         <div class="toolbar">
           <label class="search-field"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg><input id="orgSearch" type="search" placeholder="Имя, должность или подразделение"></label>
-          <span class="toolbar__meta">126 сотрудников · 12 подразделений</span>
+          <span class="toolbar__meta" id="orgSearchStatus">126 сотрудников · 12 подразделений</span>
         </div>
 
-        <div class="org-chart" id="orgChart">
-          <div class="org-level org-level--root">
-            <button class="org-person org-person--root employee-open" data-employee="Виктор Сергеевич Макаров|Генеральный директор|Приёмная генерального директора|ВС">
-              <span class="avatar avatar--white">ВС</span><span><small>Генеральный директор</small><strong>Виктор Сергеевич Макаров</strong></span>
-            </button>
+        <div class="org-workspace" id="orgChart">
+          <div class="org-workspace__bar">
+            <div class="org-workspace__legend"><strong>Организационная карта</strong><small>Перетаскивайте поле мышью · Ctrl/⌘ + колесо меняет масштаб</small></div>
+            <div class="org-controls" aria-label="Управление схемой">
+              <button class="org-action" id="orgFindMe" type="button">Найти меня</button>
+              <button class="org-action" id="orgCollapseAll" type="button">Свернуть отделы</button>
+              <button class="org-action" id="orgFit" type="button">Вписать</button>
+              <span class="org-controls__divider" aria-hidden="true"></span>
+              <button class="org-zoom" id="orgZoomOut" type="button" aria-label="Уменьшить масштаб">−</button>
+              <output class="org-zoom__value" id="orgZoomValue" aria-live="polite">100%</output>
+              <button class="org-zoom" id="orgZoomIn" type="button" aria-label="Увеличить масштаб">+</button>
+            </div>
           </div>
-          <div class="org-branches">
-            <section class="org-unit">
-              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--lime">Э</span><span><strong>Эксплуатация</strong><small>42 сотрудника</small></span><span class="chevron"></span></button>
-              <div class="org-unit__body">
-                <button class="org-person employee-open" data-employee="Олег Николаевич Волков|Директор по эксплуатации|Дирекция эксплуатации|ОН"><span class="avatar avatar--lime">ОН</span><span><strong>Олег Волков</strong><small>Директор</small></span></button>
-                <button class="org-team"><span>Инженерная служба</span><b>18</b></button>
-                <button class="org-team"><span>Служба клининга</span><b>14</b></button>
-                <button class="org-team"><span>Транспортный отдел</span><b>9</b></button>
+
+          <div class="org-viewport" id="orgViewport" tabindex="0" aria-label="Интерактивная структура компании. Поле можно перемещать и масштабировать">
+            <div class="org-stage" id="orgStage">
+              <svg class="org-connectors" id="orgConnectors" aria-hidden="true">
+                <defs><marker id="orgArrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z"></path></marker></defs>
+                <g id="orgConnectorPaths"></g>
+              </svg>
+
+              <div class="org-level org-level--root">
+                <button class="org-person org-person--root org-node employee-open" data-node-id="company-director" data-employee="Виктор Сергеевич Макаров|Генеральный директор|Приёмная генерального директора|ВС">
+                  <span class="avatar avatar--white">ВС</span><span><small>ОК «Лужники» · Генеральный директор</small><strong>Виктор Сергеевич Макаров</strong></span>
+                </button>
               </div>
-            </section>
-            <section class="org-unit">
-              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--blue">С</span><span><strong>Спорт и события</strong><small>34 сотрудника</small></span><span class="chevron"></span></button>
-              <div class="org-unit__body">
-                <button class="org-person employee-open" data-employee="Анна Игоревна Белова|Директор по спортивным программам|Дирекция спорта|АИ"><span class="avatar avatar--blue">АИ</span><span><strong>Анна Белова</strong><small>Директор</small></span></button>
-                <button class="org-team"><span>Спортивные программы</span><b>12</b></button>
-                <button class="org-team"><span>Массовые мероприятия</span><b>13</b></button>
-                <button class="org-team"><span>Арендные проекты</span><b>8</b></button>
+
+              <div class="org-branches">
+                <section class="org-unit">
+                  <button class="org-unit__head org-node" data-node-id="operations" data-parent-id="company-director" aria-expanded="true"><span class="unit-icon unit-icon--lime">Э</span><span><strong>Эксплуатация</strong><small>42 сотрудника · 3 службы</small></span><span class="chevron"></span></button>
+                  <div class="org-unit__body">
+                    <p class="org-unit__mission">Инфраструктура комплекса, инженерные системы, клининг и транспорт.</p>
+                    <button class="org-person org-node employee-open" data-node-id="operations-head" data-parent-id="operations" data-employee="Олег Николаевич Волков|Директор по эксплуатации|Дирекция эксплуатации|ОН"><span class="avatar avatar--lime">ОН</span><span><em class="org-role">Руководитель</em><strong>Олег Волков</strong><small>Директор по эксплуатации</small></span></button>
+                    <button class="org-person org-person--compact org-node employee-open" data-node-id="operations-deputy" data-parent-id="operations" data-employee="Алексей Сергеевич Крылов|Заместитель директора|Дирекция эксплуатации|АК"><span class="avatar avatar--orange">АК</span><span><em class="org-role">Заместитель</em><strong>Алексей Крылов</strong><small>Координация служб</small></span></button>
+                    <button class="org-team org-node" data-node-id="engineering" data-parent-id="operations"><span><strong>Инженерная служба</strong><small>Главный инженер · 17 сотрудников</small></span><b>17</b></button>
+                    <button class="org-team org-node" data-node-id="cleaning" data-parent-id="operations"><span><strong>Служба клининга</strong><small>Руководитель смен · 13 сотрудников</small></span><b>13</b></button>
+                    <button class="org-team org-node" data-node-id="transport" data-parent-id="operations"><span><strong>Транспортный отдел</strong><small>Начальник отдела · 9 сотрудников</small></span><b>9</b></button>
+                  </div>
+                </section>
+
+                <section class="org-unit">
+                  <button class="org-unit__head org-node" data-node-id="events" data-parent-id="company-director" aria-expanded="true"><span class="unit-icon unit-icon--blue">С</span><span><strong>Спорт и события</strong><small>34 сотрудника · 3 отдела</small></span><span class="chevron"></span></button>
+                  <div class="org-unit__body">
+                    <p class="org-unit__mission">Спортивные программы, массовые мероприятия и арендные проекты.</p>
+                    <button class="org-person org-node employee-open" data-node-id="events-head" data-parent-id="events" data-employee="Анна Игоревна Белова|Директор по спортивным программам|Дирекция спорта|АИ"><span class="avatar avatar--blue">АИ</span><span><em class="org-role">Руководитель</em><strong>Анна Белова</strong><small>Директор по программам</small></span></button>
+                    <button class="org-person org-person--compact org-node employee-open" data-node-id="events-deputy" data-parent-id="events" data-employee="Сергей Павлович Лебедев|Заместитель директора|Дирекция спорта|СП"><span class="avatar avatar--pink">СП</span><span><em class="org-role">Заместитель</em><strong>Сергей Лебедев</strong><small>Операционное управление</small></span></button>
+                    <button class="org-team org-node" data-node-id="sport-programs" data-parent-id="events"><span><strong>Спортивные программы</strong><small>Руководитель направления · 12</small></span><b>12</b></button>
+                    <button class="org-team org-node" data-node-id="mass-events" data-parent-id="events"><span><strong>Массовые мероприятия</strong><small>Продюсер проектов · 12</small></span><b>12</b></button>
+                    <button class="org-team org-node" data-node-id="rental" data-parent-id="events"><span><strong>Арендные проекты</strong><small>Менеджер площадок · 7</small></span><b>7</b></button>
+                  </div>
+                </section>
+
+                <section class="org-unit">
+                  <button class="org-unit__head org-node" data-node-id="communications" data-parent-id="company-director" aria-expanded="true"><span class="unit-icon unit-icon--orange">К</span><span><strong>Коммуникации</strong><small>21 сотрудник · 3 отдела</small></span><span class="chevron"></span></button>
+                  <div class="org-unit__body">
+                    <p class="org-unit__mission">Внешние коммуникации, маркетинг и визуальный образ комплекса.</p>
+                    <button class="org-person org-node employee-open" data-node-id="communications-head" data-parent-id="communications" data-employee="Михаил Юрьевич Орлов|Директор по коммуникациям|Дирекция коммуникаций|МЮ"><span class="avatar avatar--orange">МЮ</span><span><em class="org-role">Руководитель</em><strong>Михаил Орлов</strong><small>Директор по коммуникациям</small></span></button>
+                    <button class="org-person org-person--compact org-node employee-open" data-node-id="communications-deputy" data-parent-id="communications" data-employee="Ольга Романовна Миронова|Заместитель директора|Дирекция коммуникаций|ОР"><span class="avatar avatar--pink">ОР</span><span><em class="org-role">Заместитель</em><strong>Ольга Миронова</strong><small>Медиа и спецпроекты</small></span></button>
+                    <button class="org-team org-node" data-node-id="press" data-parent-id="communications"><span><strong>Пресс-служба</strong><small>Руководитель пресс-службы · 7</small></span><b>7</b></button>
+                    <button class="org-team org-node" data-node-id="marketing" data-parent-id="communications"><span><strong>Маркетинг</strong><small>Руководитель маркетинга · 7</small></span><b>7</b></button>
+                    <button class="org-team org-node" data-node-id="design" data-parent-id="communications"><span><strong>Дизайн-студия</strong><small>Арт-директор · 5</small></span><b>5</b></button>
+                  </div>
+                </section>
+
+                <section class="org-unit">
+                  <button class="org-unit__head org-node" data-node-id="services" data-parent-id="company-director" aria-expanded="true"><span class="unit-icon unit-icon--pink">Р</span><span><strong>Корпоративные сервисы</strong><small>29 сотрудников · 3 управления</small></span><span class="chevron"></span></button>
+                  <div class="org-unit__body">
+                    <p class="org-unit__mission">Персонал, финансы, правовое сопровождение и внутренние сервисы.</p>
+                    <button class="org-person org-node employee-open" data-node-id="services-head" data-parent-id="services" data-employee="Наталья Павловна Ершова|HR-директор|Дирекция по персоналу|НП"><span class="avatar avatar--pink">НП</span><span><em class="org-role">Руководитель</em><strong>Наталья Ершова</strong><small>HR-директор</small></span></button>
+                    <button class="org-person org-person--compact org-node employee-open" data-node-id="services-deputy" data-parent-id="services" data-employee="Ирина Львовна Фролова|Заместитель HR-директора|Дирекция по персоналу|ИЛ"><span class="avatar avatar--blue">ИЛ</span><span><em class="org-role">Заместитель</em><strong>Ирина Фролова</strong><small>Корпоративные сервисы</small></span></button>
+                    <button class="org-team org-node" data-node-id="hr" data-parent-id="services"><span><strong>Управление персоналом</strong><small>Начальник управления · 9</small></span><b>9</b></button>
+                    <button class="org-team org-node" data-node-id="finance" data-parent-id="services"><span><strong>Финансы</strong><small>Финансовый директор · 10</small></span><b>10</b></button>
+                    <button class="org-team org-node" data-node-id="legal" data-parent-id="services"><span><strong>Правовое управление</strong><small>Начальник управления · 8</small></span><b>8</b></button>
+                  </div>
+                </section>
               </div>
-            </section>
-            <section class="org-unit">
-              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--orange">К</span><span><strong>Коммуникации</strong><small>21 сотрудник</small></span><span class="chevron"></span></button>
-              <div class="org-unit__body">
-                <button class="org-person employee-open" data-employee="Михаил Юрьевич Орлов|Директор по коммуникациям|Дирекция коммуникаций|МЮ"><span class="avatar avatar--orange">МЮ</span><span><strong>Михаил Орлов</strong><small>Директор</small></span></button>
-                <button class="org-team"><span>Пресс-служба</span><b>7</b></button>
-                <button class="org-team"><span>Маркетинг</span><b>8</b></button>
-                <button class="org-team"><span>Дизайн-студия</span><b>5</b></button>
-              </div>
-            </section>
-            <section class="org-unit">
-              <button class="org-unit__head" aria-expanded="true"><span class="unit-icon unit-icon--pink">Р</span><span><strong>Корпоративные сервисы</strong><small>29 сотрудников</small></span><span class="chevron"></span></button>
-              <div class="org-unit__body">
-                <button class="org-person employee-open" data-employee="Наталья Павловна Ершова|HR-директор|Дирекция по персоналу|НП"><span class="avatar avatar--pink">НП</span><span><strong>Наталья Ершова</strong><small>HR-директор</small></span></button>
-                <button class="org-team"><span>Управление персоналом</span><b>9</b></button>
-                <button class="org-team"><span>Финансы</span><b>11</b></button>
-                <button class="org-team"><span>Правовое управление</span><b>8</b></button>
-              </div>
-            </section>
+            </div>
           </div>
         </div>
       </div>
@@ -317,6 +350,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20261124-2"></script>
 </body>
 </html>

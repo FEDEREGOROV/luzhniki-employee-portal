@@ -5,6 +5,7 @@ const mobileNav = document.querySelector('#mobileNav');
 const mobileMenu = document.querySelector('#mobileMenu');
 const toast = document.querySelector('#toast');
 let toastTimer;
+let orgApi = null;
 
 function showToast(message) {
   toast.textContent = message;
@@ -23,6 +24,7 @@ function openPage(pageName, updateHash = true) {
   document.querySelector('#notificationPopover').hidden = true;
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(() => target.querySelector('h1')?.focus({ preventScroll: true }), 50);
+  if (target.dataset.pageView === 'structure') setTimeout(() => orgApi?.fit(), 100);
 }
 
 pageButtons.forEach((button) => button.addEventListener('click', () => openPage(button.dataset.page)));
@@ -43,22 +45,206 @@ document.querySelector('#newsExpand').addEventListener('click', (event) => {
 
 document.querySelector('#allNews').addEventListener('click', () => showToast('На главной уже показаны все актуальные новости'));
 
+const orgViewport = document.querySelector('#orgViewport');
+const orgStage = document.querySelector('#orgStage');
+const orgConnectorPaths = document.querySelector('#orgConnectorPaths');
+const orgZoomValue = document.querySelector('#orgZoomValue');
+const orgSearch = document.querySelector('#orgSearch');
+const orgSearchStatus = document.querySelector('#orgSearchStatus');
+const orgCollapseAll = document.querySelector('#orgCollapseAll');
+const orgMinScale = 0.48;
+const orgMaxScale = 1.35;
+let orgScale = 1;
+let orgX = 0;
+let orgY = 24;
+let orgPanStart = null;
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function activeOrgPathIds() {
+  const active = new Set();
+  let node = orgStage.querySelector('.org-node.is-current, .org-node.is-match');
+  while (node) {
+    const id = node.dataset.nodeId;
+    if (id) active.add(id);
+    const parentId = node.dataset.parentId;
+    if (!parentId) break;
+    node = orgStage.querySelector(`[data-node-id="${parentId}"]`);
+  }
+  return active;
+}
+
+function drawOrgConnectors() {
+  const stageRect = orgStage.getBoundingClientRect();
+  const stageWidth = orgStage.scrollWidth;
+  const stageHeight = orgStage.scrollHeight;
+  const activeIds = activeOrgPathIds();
+  document.querySelector('#orgConnectors').setAttribute('viewBox', `0 0 ${stageWidth} ${stageHeight}`);
+  orgConnectorPaths.innerHTML = '';
+
+  orgStage.querySelectorAll('[data-parent-id]').forEach((target) => {
+    if (target.offsetParent === null) return;
+    const parent = orgStage.querySelector(`[data-node-id="${target.dataset.parentId}"]`);
+    if (!parent || parent.offsetParent === null) return;
+    const parentRect = parent.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    const sourceX = (parentRect.left - stageRect.left + parentRect.width / 2) / orgScale;
+    const sourceY = (parentRect.bottom - stageRect.top) / orgScale;
+    const targetX = (targetRect.left - stageRect.left + targetRect.width / 2) / orgScale;
+    const targetY = (targetRect.top - stageRect.top - 7) / orgScale;
+    const middleY = sourceY + Math.max(28, (targetY - sourceY) * 0.48);
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M ${sourceX} ${sourceY} V ${middleY} H ${targetX} V ${targetY}`);
+    path.setAttribute('class', `org-connector-path${activeIds.has(target.dataset.nodeId) && activeIds.has(target.dataset.parentId) ? ' is-emphasized' : ''}`);
+    orgConnectorPaths.append(path);
+  });
+}
+
+function updateOrgTransform() {
+  orgStage.style.transform = `translate(${orgX}px, ${orgY}px) scale(${orgScale})`;
+  orgZoomValue.value = `${Math.round(orgScale * 100)}%`;
+  orgZoomValue.textContent = orgZoomValue.value;
+  requestAnimationFrame(drawOrgConnectors);
+}
+
+function fitOrgChart() {
+  if (!orgViewport.clientWidth) return;
+  const horizontalPadding = 48;
+  const verticalPadding = 48;
+  const nextScale = clamp(Math.min(
+    (orgViewport.clientWidth - horizontalPadding) / orgStage.scrollWidth,
+    (orgViewport.clientHeight - verticalPadding) / orgStage.scrollHeight,
+  ), orgMinScale, 1);
+  orgScale = nextScale;
+  orgX = (orgViewport.clientWidth - orgStage.scrollWidth * orgScale) / 2;
+  orgY = Math.max(24, (orgViewport.clientHeight - orgStage.scrollHeight * orgScale) / 2);
+  updateOrgTransform();
+}
+
+function zoomOrgChart(nextScale, clientX = orgViewport.clientWidth / 2, clientY = orgViewport.clientHeight / 2) {
+  const bounded = clamp(nextScale, orgMinScale, orgMaxScale);
+  const stagePointX = (clientX - orgX) / orgScale;
+  const stagePointY = (clientY - orgY) / orgScale;
+  orgScale = bounded;
+  orgX = clientX - stagePointX * orgScale;
+  orgY = clientY - stagePointY * orgScale;
+  updateOrgTransform();
+}
+
+function centerOrgNode(node) {
+  if (!node || !orgViewport.clientWidth) return;
+  const nodeRect = node.getBoundingClientRect();
+  const viewportRect = orgViewport.getBoundingClientRect();
+  orgX += viewportRect.left + viewportRect.width / 2 - (nodeRect.left + nodeRect.width / 2);
+  orgY += viewportRect.top + viewportRect.height / 2 - (nodeRect.top + nodeRect.height / 2);
+  updateOrgTransform();
+}
+
+function setOrgUnitExpanded(button, expanded) {
+  button.setAttribute('aria-expanded', String(expanded));
+  button.nextElementSibling.hidden = !expanded;
+}
+
 document.querySelectorAll('.org-unit__head').forEach((button) => {
   button.addEventListener('click', () => {
-    const body = button.nextElementSibling;
-    const expanded = button.getAttribute('aria-expanded') === 'true';
-    button.setAttribute('aria-expanded', String(!expanded));
-    body.hidden = expanded;
+    setOrgUnitExpanded(button, button.getAttribute('aria-expanded') !== 'true');
+    orgCollapseAll.textContent = document.querySelector('.org-unit__head[aria-expanded="true"]') ? 'Свернуть отделы' : 'Развернуть отделы';
+    requestAnimationFrame(drawOrgConnectors);
   });
 });
 
-const orgSearch = document.querySelector('#orgSearch');
+orgCollapseAll.addEventListener('click', () => {
+  const shouldCollapse = Boolean(document.querySelector('.org-unit__head[aria-expanded="true"]'));
+  document.querySelectorAll('.org-unit__head').forEach((button) => setOrgUnitExpanded(button, !shouldCollapse));
+  orgCollapseAll.textContent = shouldCollapse ? 'Развернуть отделы' : 'Свернуть отделы';
+  requestAnimationFrame(() => { drawOrgConnectors(); fitOrgChart(); });
+});
+
 orgSearch.addEventListener('input', () => {
   const query = orgSearch.value.trim().toLocaleLowerCase('ru');
-  document.querySelectorAll('.org-person, .org-team').forEach((item) => {
-    item.classList.toggle('is-match', query.length > 1 && item.textContent.toLocaleLowerCase('ru').includes(query));
+  const matches = [];
+  orgStage.querySelectorAll('.org-node').forEach((item) => {
+    const match = query.length > 1 && item.textContent.toLocaleLowerCase('ru').includes(query);
+    item.classList.toggle('is-match', match);
+    if (match) {
+      matches.push(item);
+      const unit = item.closest('.org-unit');
+      if (unit) setOrgUnitExpanded(unit.querySelector('.org-unit__head'), true);
+    }
+  });
+  orgSearchStatus.textContent = query.length > 1 ? `Найдено: ${matches.length}` : '126 сотрудников · 12 подразделений';
+  requestAnimationFrame(() => {
+    drawOrgConnectors();
+    if (matches[0]) centerOrgNode(matches[0]);
   });
 });
+
+document.querySelector('#orgFindMe').addEventListener('click', () => {
+  const me = orgStage.querySelector('[data-node-id="operations-deputy"]');
+  const unit = me.closest('.org-unit');
+  setOrgUnitExpanded(unit.querySelector('.org-unit__head'), true);
+  orgStage.querySelectorAll('.org-node').forEach((node) => node.classList.toggle('is-current', node === me));
+  orgSearchStatus.textContent = 'Ваш отдел: Эксплуатация';
+  requestAnimationFrame(() => { drawOrgConnectors(); centerOrgNode(me); });
+});
+
+document.querySelector('#orgFit').addEventListener('click', fitOrgChart);
+document.querySelector('#orgZoomIn').addEventListener('click', () => zoomOrgChart(orgScale + 0.1));
+document.querySelector('#orgZoomOut').addEventListener('click', () => zoomOrgChart(orgScale - 0.1));
+
+orgViewport.addEventListener('pointerdown', (event) => {
+  if (event.target.closest('button')) return;
+  orgPanStart = { pointerId: event.pointerId, clientX: event.clientX, clientY: event.clientY, x: orgX, y: orgY };
+  orgViewport.setPointerCapture(event.pointerId);
+  orgViewport.classList.add('is-panning');
+});
+orgViewport.addEventListener('pointermove', (event) => {
+  if (!orgPanStart || orgPanStart.pointerId !== event.pointerId) return;
+  orgX = orgPanStart.x + event.clientX - orgPanStart.clientX;
+  orgY = orgPanStart.y + event.clientY - orgPanStart.clientY;
+  updateOrgTransform();
+});
+function stopOrgPan(event) {
+  if (!orgPanStart || orgPanStart.pointerId !== event.pointerId) return;
+  orgPanStart = null;
+  orgViewport.classList.remove('is-panning');
+}
+orgViewport.addEventListener('pointerup', stopOrgPan);
+orgViewport.addEventListener('pointercancel', stopOrgPan);
+orgViewport.addEventListener('wheel', (event) => {
+  if (!event.ctrlKey && !event.metaKey) return;
+  event.preventDefault();
+  const viewportRect = orgViewport.getBoundingClientRect();
+  zoomOrgChart(orgScale + (event.deltaY < 0 ? 0.08 : -0.08), event.clientX - viewportRect.left, event.clientY - viewportRect.top);
+}, { passive: false });
+orgViewport.addEventListener('keydown', (event) => {
+  if (event.key === '+' || event.key === '=') zoomOrgChart(orgScale + 0.1);
+  else if (event.key === '-') zoomOrgChart(orgScale - 0.1);
+  else if (event.key === '0') fitOrgChart();
+  else if (event.key.startsWith('Arrow')) {
+    const step = event.shiftKey ? 70 : 28;
+    if (event.key === 'ArrowLeft') orgX += step;
+    if (event.key === 'ArrowRight') orgX -= step;
+    if (event.key === 'ArrowUp') orgY += step;
+    if (event.key === 'ArrowDown') orgY -= step;
+    updateOrgTransform();
+  } else return;
+  event.preventDefault();
+});
+
+document.querySelectorAll('.org-team').forEach((team) => team.addEventListener('click', () => {
+  orgStage.querySelectorAll('.org-node').forEach((node) => node.classList.toggle('is-current', node === team));
+  orgSearchStatus.textContent = team.querySelector('strong').textContent;
+  drawOrgConnectors();
+  showToast('Подразделение выделено на схеме');
+}));
+
+if ('ResizeObserver' in window) new ResizeObserver(drawOrgConnectors).observe(orgStage);
+orgApi = { fit: fitOrgChart };
+updateOrgTransform();
+if (document.querySelector('[data-page-view="structure"]').classList.contains('is-active')) setTimeout(fitOrgChart, 50);
 
 const employeeModal = document.querySelector('#employeeModal');
 function openEmployeeModal(data) {
